@@ -17,7 +17,7 @@ lint: ## Run golint and go vet.
 
 .PHONY: test
 test:  ## Run the tests.
-	@go test ./...
+	GO111MODULE=on go test -v ./...
 
 .PHONY: build
 build: main.go  ## Build a binary.

@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/c-bata/kube-prompt/internal/debug"
+	"github.com/cyberbliss/kube-prompt/internal/debug"
 )
 
 func Executor(s string) {
@@ -18,6 +18,13 @@ func Executor(s string) {
 		fmt.Println("Bye!")
 		os.Exit(0)
 		return
+	}
+
+	elems := strings.Split(s, " ")
+	switch elems[0] {
+	case "ns", "namespace":
+		currCtx := strings.Trim(ExecuteAndGetResult("config current-context"), "\n")
+		s = fmt.Sprintf("config set-context %s --namespace %s", currCtx, elems[1])
 	}
 
 	cmd := exec.Command("/bin/sh", "-c", "kubectl "+s)

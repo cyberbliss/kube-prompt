@@ -1,7 +1,6 @@
 package optionconv
 
 import (
-	"errors"
 	"strings"
 
 	prompt "github.com/c-bata/go-prompt"
@@ -10,7 +9,8 @@ import (
 func GetOptionsFromHelpText(help string) (options string, err error) {
 	x := strings.Split(help, "\nOptions:")
 	if len(x) < 2 {
-		return "", errors.New("parse error")
+		//return "", errors.New("parse error")
+		return "", nil
 	}
 	y := strings.Split(x[1], "\n\n")
 	options = strings.Trim(y[0], "\n")
@@ -56,6 +56,9 @@ func convertToSuggest(flagLine string) []prompt.Suggest {
 
 func ConvertToSuggestions(options []string) []prompt.Suggest {
 	suggestions := make([]prompt.Suggest, 0, len(options))
+	if len(options) < 2 {
+		return suggestions
+	}
 	for i := range options {
 		x := convertToSuggest(options[i])
 		for j := range x {

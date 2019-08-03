@@ -71,8 +71,15 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 		}
 	case "label":
 		suggests = labelOptions
+
 	case "cluster-info":
-		suggests = clusterInfoOptions
+		if len(commandArgs) == 2 {
+			switch commandArgs[1] {
+			case "dump":
+				suggests = clusterInfoDumpOptions
+			}
+		}
+
 	case "explain":
 		suggests = explainOptions
 	case "cordon":

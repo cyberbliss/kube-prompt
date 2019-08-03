@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	prompt "github.com/c-bata/go-prompt"
-	"github.com/c-bata/kube-prompt/internal/optionconv"
+	"github.com/cyberbliss/kube-prompt/internal/optionconv"
 )
 
-func ExampleGetOptionsFromHelpText() {
+func TestExampleGetOptionsFromHelpText(t *testing.T) {
 	input := `Expose a resource as a new Kubernetes service.
 
 Looks up a deployment, service, replica set, replication controller or pod by name and uses the selector for that
@@ -72,6 +72,7 @@ Usage:
 Use "kubectl options" for a list of global command-line options (applies to all commands).`
 	got, _ := optionconv.GetOptionsFromHelpText(input)
 	fmt.Println(got)
+	t.Log(got)
 	// Output:
 	// --allow-missing-template-keys=true: If true, ignore any errors in templates when a field or map key is missing in
 	// the template. Only applies to golang and jsonpath output formats.
@@ -146,4 +147,25 @@ func TestConvertToSuggestions(t *testing.T) {
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("expected:\n%#v\n\ngot:\n%#v\n", expected, actual)
 	}
+}
+
+func TestNoOptionsToConvert(t *testing.T) {
+	input := `Display addresses of the master and services with label kubernetes.io/cluster-service=true To further debug and diagnose
+	cluster problems, use 'kubectl cluster-info dump'.
+	
+	Examples:
+	  # Print the address of the master and cluster services
+	  kubectl cluster-info
+	
+	Available Commands:
+	  dump        Dump lots of relevant info for debugging and diagnosis
+	
+	Usage:
+	  kubectl cluster-info [flags] [options]
+	
+	Use "kubectl <command> --help" for more information about a given command.
+	Use "kubectl options" for a list of global command-line options (applies to all commands).`
+	got, _ := optionconv.GetOptionsFromHelpText(input)
+	fmt.Println(got)
+	t.Log(got)
 }

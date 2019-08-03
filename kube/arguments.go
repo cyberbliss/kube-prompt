@@ -11,7 +11,8 @@ var commands = []prompt.Suggest{
 	{Text: "delete", Description: "Delete resources by filenames, stdin, resources and names, or by resources and label selector."},
 	{Text: "edit", Description: "Edit a resource on the server"},
 	{Text: "apply", Description: "Apply a configuration to a resource by filename or stdin"},
-	{Text: "namespace", Description: "SUPERSEDED: Set and view the current Kubernetes namespace"},
+	{Text: "namespace", Description: "Set the active namespace for the current cluster"},
+	{Text: "ns", Description: "Set the active namespace for the current cluster"},
 	{Text: "logs", Description: "Print the logs for a container in a pod."},
 	{Text: "rolling-update", Description: "Perform a rolling update of the given ReplicationController."},
 	{Text: "scale", Description: "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job."},
@@ -375,7 +376,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			}
 		}
 
-	case "namespace":
+	case "namespace", "ns":
 		if len(args) == 2 {
 			return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), args[1], true)
 		}
@@ -452,7 +453,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 		if len(args) == 3 {
 			third := args[2]
 			switch args[1] {
-			case "use-context":
+			case "use-context", "set-context":
 				return prompt.FilterContains(getContextSuggestions(), third, true)
 			}
 		}

@@ -11,7 +11,7 @@ set -e
 
 go build -o ./bin/option-gen ./_tools/option-gen/main.go
 
-subcmds=(
+kubectlsubcmds=(
     "get"
     "describe"
     "create"
@@ -45,6 +45,7 @@ subcmds=(
     "top node"
     "top pod"
     "cluster-info"
+    "cluster-info dump"
     "config get-contexts"
     "config set"
     "config set-cluster"
@@ -52,9 +53,11 @@ subcmds=(
     "config view"
 )
 
-for cmd in "${subcmds[@]}"; do
+for cmd in "${kubectlsubcmds[@]}"; do
+  echo "Generating code for ${cmd}"
   camelized=`echo ${cmd} | gsed -r 's/[- ](.)/\U\1\E/g'`
   snaked=`echo ${cmd} | gsed -r 's/[- ]/_/g'`
+  
   kubectl ${cmd} --help | ./bin/option-gen -o ${KUBE_DIR}/option_${snaked}.gen.go -var ${camelized}Options
   goimports -w ${KUBE_DIR}/option_${snaked}.gen.go
 done

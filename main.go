@@ -6,8 +6,8 @@ import (
 
 	prompt "github.com/c-bata/go-prompt"
 	"github.com/c-bata/go-prompt/completer"
-	"github.com/c-bata/kube-prompt/internal/debug"
-	"github.com/c-bata/kube-prompt/kube"
+	"github.com/cyberbliss/kube-prompt/internal/debug"
+	"github.com/cyberbliss/kube-prompt/kube"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
