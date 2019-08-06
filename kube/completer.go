@@ -6,8 +6,6 @@ import (
 
 	prompt "github.com/c-bata/go-prompt"
 	"github.com/c-bata/go-prompt/completer"
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -34,22 +32,15 @@ func NewCompleter() (*Completer, error) {
 		return nil, err
 	}
 
-	namespaces, err := client.CoreV1().Namespaces().List(metav1.ListOptions{})
-	if err != nil {
-		return nil, err
-	}
-
 	return &Completer{
-		namespace:     namespace,
-		namespaceList: namespaces,
-		client:        client,
+		Namespace: namespace,
+		client:    client,
 	}, nil
 }
 
 type Completer struct {
-	namespace     string
-	namespaceList *corev1.NamespaceList
-	client        *kubernetes.Clientset
+	Namespace string
+	client    *kubernetes.Clientset
 }
 
 func (c *Completer) Complete(d prompt.Document) []prompt.Suggest {
@@ -78,7 +69,7 @@ func (c *Completer) Complete(d prompt.Document) []prompt.Suggest {
 
 	namespace := checkNamespaceArg(d)
 	if namespace == "" {
-		namespace = c.namespace
+		namespace = getActiveNamespace()
 	}
 	commandArgs, skipNext := excludeOptions(args)
 	if skipNext {
@@ -145,7 +136,7 @@ func (c *Completer) completeOptionArguments(d prompt.Document) ([]prompt.Suggest
 			return yamlFileCompleter.Complete(d), true
 		case "-n", "--namespace":
 			return prompt.FilterHasPrefix(
-				getNameSpaceSuggestions(c.namespaceList),
+				getNameSpaceSuggestions(c.client),
 				d.GetWordBeforeCursor(),
 				true,
 			), true

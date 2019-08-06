@@ -175,7 +175,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			case "limitranges", "limits":
 				return prompt.FilterContains(getLimitRangeSuggestions(c.client, namespace), third, true)
 			case "namespaces", "ns":
-				return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), third, true)
+				return prompt.FilterContains(getNameSpaceSuggestions(c.client), third, true)
 			case "no", "nodes":
 				return prompt.FilterContains(getNodeSuggestions(c.client), third, true)
 			case "po", "pod", "pods":
@@ -228,7 +228,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			case "limitranges", "limits":
 				return prompt.FilterContains(getLimitRangeSuggestions(c.client, namespace), third, true)
 			case "namespaces", "ns":
-				return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), third, true)
+				return prompt.FilterContains(getNameSpaceSuggestions(c.client), third, true)
 			case "no", "nodes":
 				return prompt.FilterContains(getNodeSuggestions(c.client), third, true)
 			case "po", "pod", "pods":
@@ -294,7 +294,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			case "limitranges", "limits":
 				return prompt.FilterContains(getLimitRangeSuggestions(c.client, namespace), third, true)
 			case "namespaces", "ns":
-				return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), third, true)
+				return prompt.FilterContains(getNameSpaceSuggestions(c.client), third, true)
 			case "no", "nodes":
 				return prompt.FilterContains(getNodeSuggestions(c.client), third, true)
 			case "po", "pod", "pods":
@@ -346,7 +346,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			case "limitranges", "limits":
 				return prompt.FilterContains(getLimitRangeSuggestions(c.client, namespace), third, true)
 			case "namespaces", "ns":
-				return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), third, true)
+				return prompt.FilterContains(getNameSpaceSuggestions(c.client), third, true)
 			case "no", "nodes":
 				return prompt.FilterContains(getNodeSuggestions(c.client), third, true)
 			case "po", "pod", "pods":
@@ -378,7 +378,7 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 
 	case "namespace", "ns":
 		if len(args) == 2 {
-			return prompt.FilterContains(getNameSpaceSuggestions(c.namespaceList), args[1], true)
+			return prompt.FilterContains(getNameSpaceSuggestions(c.client), args[1], true)
 		}
 	case "logs":
 		if len(args) == 2 {

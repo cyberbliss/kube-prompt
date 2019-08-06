@@ -10,8 +10,18 @@ import (
 	"github.com/cyberbliss/kube-prompt/internal/debug"
 )
 
+var LivePrefixState struct {
+	LivePrefix string
+	IsEnable   bool
+}
+
+func ChangeLivePrefix() (string, bool) {
+	return LivePrefixState.LivePrefix, LivePrefixState.IsEnable
+}
+
 func Executor(s string) {
 	s = strings.TrimSpace(s)
+	debug.Log(s)
 	if s == "" {
 		return
 	} else if s == "quit" || s == "exit" {
@@ -21,18 +31,31 @@ func Executor(s string) {
 	}
 
 	elems := strings.Split(s, " ")
+	namespaceChange := false
 	switch elems[0] {
 	case "ns", "namespace":
-		currCtx := strings.Trim(ExecuteAndGetResult("config current-context"), "\n")
-		s = fmt.Sprintf("config set-context %s --namespace %s", currCtx, elems[1])
+		if len(elems) < 2 {
+			s = "get namespaces"
+		} else {
+			currCtx := GetKubeContext()
+			s = fmt.Sprintf("config set-context %s --namespace %s", currCtx, elems[1])
+			namespaceChange = true
+		}
 	}
 
 	cmd := exec.Command("/bin/sh", "-c", "kubectl "+s)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
+	err := cmd.Run()
+	if err != nil {
 		fmt.Printf("Got error: %s\n", err.Error())
+	}
+
+	if namespaceChange && err == nil {
+		removeLastFetchedAt(activeNamespaceKey)
+		LivePrefixState.LivePrefix = elems[1] + ": "
+		LivePrefixState.IsEnable = true
 	}
 	return
 }

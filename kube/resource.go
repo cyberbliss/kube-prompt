@@ -19,7 +19,14 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-const thresholdFetchInterval = 10 * time.Second
+const (
+	thresholdFetchInterval = 10 * time.Second
+	activeNamespaceKey     = "activeNamespace"
+)
+
+var (
+	kubeContext string
+)
 
 func init() {
 	lastFetchedAt = new(sync.Map)
@@ -39,6 +46,13 @@ func init() {
 	serviceAccountList = new(sync.Map)
 	serviceList = new(sync.Map)
 	jobList = new(sync.Map)
+	namespaceList = new(sync.Map)
+
+	kubeContext = strings.Trim(ExecuteAndGetResult("config current-context"), "\n")
+}
+
+func GetKubeContext() string {
+	return kubeContext
 }
 
 /* LastFetchedAt */
@@ -61,6 +75,10 @@ func shouldFetch(key string) bool {
 
 func updateLastFetchedAt(key string) {
 	lastFetchedAt.Store(key, time.Now())
+}
+
+func removeLastFetchedAt(key string) {
+	lastFetchedAt.Delete(key)
 }
 
 /* Component Status */
@@ -154,6 +172,35 @@ func getContextSuggestions() []prompt.Suggest {
 		}
 	}
 	return s
+}
+
+/* active namespace */
+
+var (
+	activeNamespace atomic.Value
+)
+
+func fetchActiveNamespace() {
+	if !shouldFetch(activeNamespaceKey) {
+		debug.Log("don't fetch")
+		return
+	}
+	updateLastFetchedAt(activeNamespaceKey)
+	currCtx := GetKubeContext()
+	r := strings.Trim(ExecuteAndGetResult(`config view -o=jsonpath="{.contexts[?(@.name==\"`+currCtx+`\")].context.namespace}"`), "\n")
+	debug.Log("stored " + r)
+	activeNamespace.Store(r)
+}
+
+func getActiveNamespace() string {
+	go fetchActiveNamespace()
+	l, ok := activeNamespace.Load().(string)
+	if !ok || len(l) == 0 {
+		return ""
+	}
+
+	return l
+
 }
 
 /* Pod */
@@ -540,14 +587,38 @@ func getLimitRangeSuggestions(client *kubernetes.Clientset, namespace string) []
 
 /* NameSpaces */
 
-func getNameSpaceSuggestions(namespaceList *corev1.NamespaceList) []prompt.Suggest {
-	if namespaceList == nil || len(namespaceList.Items) == 0 {
+var (
+	namespaceList *sync.Map
+)
+
+func fetchNamespaceList(client *kubernetes.Clientset) {
+	key := "namespaces"
+	if !shouldFetch(key) {
+		return
+	}
+	updateLastFetchedAt(key)
+
+	namespaces, _ := client.CoreV1().Namespaces().List(metav1.ListOptions{})
+	namespaceList.Store(GetKubeContext(), namespaces)
+
+	return
+}
+
+func getNameSpaceSuggestions(client *kubernetes.Clientset) []prompt.Suggest {
+	go fetchNamespaceList(client)
+
+	x, ok := namespaceList.Load(GetKubeContext())
+	if !ok {
 		return []prompt.Suggest{}
 	}
-	s := make([]prompt.Suggest, len(namespaceList.Items))
-	for i := range namespaceList.Items {
+	l, ok := x.(*corev1.NamespaceList)
+	if l == nil || len(l.Items) == 0 {
+		return []prompt.Suggest{}
+	}
+	s := make([]prompt.Suggest, len(l.Items))
+	for i := range l.Items {
 		s[i] = prompt.Suggest{
-			Text: namespaceList.Items[i].Name,
+			Text: l.Items[i].Name,
 		}
 	}
 	return s
