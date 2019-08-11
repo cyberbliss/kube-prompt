@@ -27,6 +27,7 @@ func convert() error {
 	}
 	options := optionconv.SplitOptions(f)
 	suggests := optionconv.ConvertToSuggestions(options)
+
 	if output == "" {
 		_, err = pp.Fprintln(os.Stdout, suggests)
 	} else {

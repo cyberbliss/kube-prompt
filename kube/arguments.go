@@ -3,39 +3,40 @@ package kube
 import prompt "github.com/c-bata/go-prompt"
 
 var commands = []prompt.Suggest{
-	{Text: "get", Description: "Display one or many resources"},
-	{Text: "describe", Description: "Show details of a specific resource or group of resources"},
-	{Text: "create", Description: "Create a resource by filename or stdin"},
-	{Text: "replace", Description: "Replace a resource by filename or stdin."},
-	{Text: "patch", Description: "Update field(s) of a resource using strategic merge patch."},
-	{Text: "delete", Description: "Delete resources by filenames, stdin, resources and names, or by resources and label selector."},
-	{Text: "edit", Description: "Edit a resource on the server"},
+	{Text: "annotate", Description: "Update the annotations on a resource"},
+	{Text: "api-versions", Description: "Print the supported API versions on the server, in the form of 'group/version'."},
 	{Text: "apply", Description: "Apply a configuration to a resource by filename or stdin"},
+	{Text: "attach", Description: "Attach to a running container."},
+	{Text: "autoscale", Description: "Auto-scale a Deployment, ReplicaSet, or ReplicationController"},
+	{Text: "certificate", Description: "Modify certificate resources"},
+	{Text: "cluster-info", Description: "Display cluster info"},
+	{Text: "config", Description: "config modifies kubeconfig files"},
+	{Text: "convert", Description: "Convert config files between different API versions"},
+	{Text: "cordon", Description: "Mark node as unschedulable"},
+	{Text: "create", Description: "Create a resource by filename or stdin"},
+	{Text: "delete", Description: "Delete resources by filenames, stdin, resources and names, or by resources and label selector."},
+	{Text: "describe", Description: "Show details of a specific resource or group of resources"},
+	{Text: "drain", Description: "Drain node in preparation for maintenance"},
+	{Text: "edit", Description: "Edit a resource on the server"},
+	{Text: "exec", Description: "Execute a command in a container."},
+	{Text: "explain", Description: "Documentation of resources."},
+	{Text: "expose", Description: "Take a replication controller, service, or pod and expose it as a new Kubernetes Service"},
+	{Text: "get", Description: "Display one or many resources"},
+	{Text: "label", Description: "Update the labels on a resource"},
+	{Text: "logs", Description: "Print the logs for a container in a pod."},
 	{Text: "namespace", Description: "Set the active namespace for the current cluster"},
 	{Text: "ns", Description: "Set the active namespace for the current cluster"},
-	{Text: "logs", Description: "Print the logs for a container in a pod."},
-	{Text: "rolling-update", Description: "Perform a rolling update of the given ReplicationController."},
-	{Text: "scale", Description: "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job."},
-	{Text: "cordon", Description: "Mark node as unschedulable"},
-	{Text: "drain", Description: "Drain node in preparation for maintenance"},
-	{Text: "uncordon", Description: "Mark node as schedulable"},
-	{Text: "attach", Description: "Attach to a running container."},
-	{Text: "exec", Description: "Execute a command in a container."},
+	{Text: "patch", Description: "Update field(s) of a resource using strategic merge patch."},
 	{Text: "port-forward", Description: "Forward one or more local ports to a pod."},
 	{Text: "proxy", Description: "Run a proxy to the Kubernetes API server"},
-	{Text: "run", Description: "Run a particular image on the cluster."},
-	{Text: "expose", Description: "Take a replication controller, service, or pod and expose it as a new Kubernetes Service"},
-	{Text: "autoscale", Description: "Auto-scale a Deployment, ReplicaSet, or ReplicationController"},
+	{Text: "replace", Description: "Replace a resource by filename or stdin."},
+	{Text: "rolling-update", Description: "[DEPRECATED] Perform a rolling update of the given ReplicationController."},
 	{Text: "rollout", Description: "rollout manages a deployment"},
-	{Text: "label", Description: "Update the labels on a resource"},
-	{Text: "annotate", Description: "Update the annotations on a resource"},
-	{Text: "config", Description: "config modifies kubeconfig files"},
-	{Text: "cluster-info", Description: "Display cluster info"},
-	{Text: "api-versions", Description: "Print the supported API versions on the server, in the form of 'group/version'."},
-	{Text: "version", Description: "Print the client and server version information."},
-	{Text: "explain", Description: "Documentation of resources."},
-	{Text: "convert", Description: "Convert config files between different API versions"},
+	{Text: "run", Description: "Run a particular image on the cluster."},
+	{Text: "scale", Description: "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job."},
 	{Text: "top", Description: "Display Resource (CPU/Memory/Storage) usage"},
+	{Text: "uncordon", Description: "Mark node as schedulable"},
+	{Text: "version", Description: "Print the client and server version information."},
 
 	// Custom command.
 	{Text: "exit", Description: "Exit this program"},
@@ -460,6 +461,14 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 	case "cluster-info":
 		subCommands := []prompt.Suggest{
 			{Text: "dump", Description: "Dump lots of relevant info for debugging and diagnosis"},
+		}
+		if len(args) == 2 {
+			return prompt.FilterHasPrefix(subCommands, args[1], true)
+		}
+	case "certificate":
+		subCommands := []prompt.Suggest{
+			{Text: "approve", Description: "Approve a certificate signing request"},
+			{Text: "deny", Description: "Deny a certificate signing request"},
 		}
 		if len(args) == 2 {
 			return prompt.FilterHasPrefix(subCommands, args[1], true)

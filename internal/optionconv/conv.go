@@ -8,12 +8,14 @@ import (
 
 func GetOptionsFromHelpText(help string) (options string, err error) {
 	x := strings.Split(help, "\nOptions:")
+
 	if len(x) < 2 {
-		//return "", errors.New("parse error")
 		return "", nil
 	}
+
 	y := strings.Split(x[1], "\n\n")
 	options = strings.Trim(y[0], "\n")
+
 	return options, nil
 }
 
@@ -29,6 +31,7 @@ func SplitOptions(options string) []string {
 			results[index-1] += " " + l
 		}
 	}
+
 	return results
 }
 
@@ -57,7 +60,9 @@ func convertToSuggest(flagLine string) []prompt.Suggest {
 func ConvertToSuggestions(options []string) []prompt.Suggest {
 	suggestions := make([]prompt.Suggest, 0, len(options))
 	if len(options) < 2 {
-		return suggestions
+		if !strings.Contains(options[0], ":") {
+			return suggestions
+		}
 	}
 	for i := range options {
 		x := convertToSuggest(options[i])

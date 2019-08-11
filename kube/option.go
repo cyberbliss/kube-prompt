@@ -18,87 +18,28 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 	var suggests []prompt.Suggest
 	commandArgs, _ := excludeOptions(args)
 	switch commandArgs[0] {
-	case "get":
-		suggests = getOptions
-	case "describe":
-		suggests = describeOptions
-	case "create":
-		suggests = createOptions
-	case "replace":
-		suggests = replaceOptions
-	case "patch":
-		suggests = patchOptions
-	case "delete":
-		suggests = deleteOptions
-	case "edit":
-		suggests = editOptions
+	case "annotate":
+		suggests = annotateOptions
 	case "apply":
 		suggests = applyOptions
-	case "logs":
-		suggests = logsOptions
-	case "rolling-update":
-		suggests = rollingUpdateOptions
-	case "scale", "resize":
-		suggests = scaleOptions
 	case "attach":
 		suggests = attachOptions
-	case "exec":
-		suggests = execOptions
-	case "port-forward":
-		suggests = portForwardOptions
-	case "proxy":
-		suggests = proxyOptions
-	case "run", "run-container":
-		suggests = runOptions
-	case "expose":
-		suggests = exposeOptions
 	case "autoscale":
 		suggests = autoscaleOptions
-	case "rollout":
+	case "certificate":
 		if len(commandArgs) == 2 {
 			switch commandArgs[1] {
-			case "history":
-				suggests = rolloutHistoryOptions
-			case "pause":
-				suggests = rolloutPauseOptions
-			case "resume":
-				suggests = rolloutResumeOptions
-			case "status":
-				suggests = rolloutStatusOptions
-			case "undo":
-				suggests = rolloutUndoOptions
+			case "approve":
+				suggests = certificateApproveOptions
+			case "deny":
+				suggests = certificateDenyOptions
 			}
 		}
-	case "label":
-		suggests = labelOptions
-
 	case "cluster-info":
 		if len(commandArgs) == 2 {
 			switch commandArgs[1] {
 			case "dump":
 				suggests = clusterInfoDumpOptions
-			}
-		}
-
-	case "explain":
-		suggests = explainOptions
-	case "cordon":
-		suggests = cordonOptions
-	case "drain":
-		suggests = drainOptions
-	case "uncordon":
-		suggests = uncordonOptions
-	case "annotate":
-		suggests = annotateOptions
-	case "convert":
-		suggests = convertOptions
-	case "top":
-		if len(commandArgs) >= 2 {
-			switch commandArgs[1] {
-			case "no", "node", "nodes":
-				suggests = topNodeOptions
-			case "po", "pod", "pods":
-				suggests = topPodOptions
 			}
 		}
 	case "config":
@@ -116,6 +57,76 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 				suggests = configSetOptions
 			}
 		}
+	case "convert":
+		suggests = convertOptions
+	case "cordon":
+		suggests = cordonOptions
+	case "cp":
+		suggests = cpOptions
+	case "create":
+		suggests = createOptions
+	case "delete":
+		suggests = deleteOptions
+	case "describe":
+		suggests = describeOptions
+	case "drain":
+		suggests = drainOptions
+	case "edit":
+		suggests = editOptions
+	case "exec":
+		suggests = execOptions
+	case "explain":
+		suggests = explainOptions
+	case "expose":
+		suggests = exposeOptions
+	case "get":
+		suggests = getOptions
+	case "label":
+		suggests = labelOptions
+	case "logs":
+		suggests = logsOptions
+	case "patch":
+		suggests = patchOptions
+	case "port-forward":
+		suggests = portForwardOptions
+	case "proxy":
+		suggests = proxyOptions
+	case "replace":
+		suggests = replaceOptions
+	case "rolling-update":
+		suggests = rollingUpdateOptions
+	case "rollout":
+		if len(commandArgs) == 2 {
+			switch commandArgs[1] {
+			case "history":
+				suggests = rolloutHistoryOptions
+			case "pause":
+				suggests = rolloutPauseOptions
+			case "resume":
+				suggests = rolloutResumeOptions
+			case "status":
+				suggests = rolloutStatusOptions
+			case "undo":
+				suggests = rolloutUndoOptions
+			}
+		}
+	case "run", "run-container":
+		suggests = runOptions
+	case "scale", "resize":
+		suggests = scaleOptions
+	case "top":
+		if len(commandArgs) >= 2 {
+			switch commandArgs[1] {
+			case "no", "node", "nodes":
+				suggests = topNodeOptions
+			case "po", "pod", "pods":
+				suggests = topPodOptions
+			}
+		}
+	case "uncordon":
+		suggests = uncordonOptions
+	case "version":
+		suggests = versionOptions
 	default:
 		suggests = optionHelp
 	}

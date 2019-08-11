@@ -32,6 +32,8 @@ func Executor(s string) {
 
 	elems := strings.Split(s, " ")
 	namespaceChange := false
+	executable := "kubectl "
+
 	switch elems[0] {
 	case "ns", "namespace":
 		if len(elems) < 2 {
@@ -41,9 +43,15 @@ func Executor(s string) {
 			s = fmt.Sprintf("config set-context %s --namespace %s", currCtx, elems[1])
 			namespaceChange = true
 		}
+	case "sh":
+		if len(elems) < 2 {
+			return
+		}
+		s = strings.Join(elems[1:], " ")
+		executable = ""
 	}
 
-	cmd := exec.Command("/bin/sh", "-c", "kubectl "+s)
+	cmd := exec.Command("/bin/sh", "-c", executable+s)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
