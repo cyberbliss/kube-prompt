@@ -4,9 +4,11 @@ import prompt "github.com/c-bata/go-prompt"
 
 var commands = []prompt.Suggest{
 	{Text: "annotate", Description: "Update the annotations on a resource"},
+	{Text: "api-resources", Description: "Print the supported API resources on the server"},
 	{Text: "api-versions", Description: "Print the supported API versions on the server, in the form of 'group/version'."},
 	{Text: "apply", Description: "Apply a configuration to a resource by filename or stdin"},
 	{Text: "attach", Description: "Attach to a running container."},
+	{Text: "auth", Description: "Inspect authorization"},
 	{Text: "autoscale", Description: "Auto-scale a Deployment, ReplicaSet, or ReplicationController"},
 	{Text: "certificate", Description: "Modify certificate resources"},
 	{Text: "cluster-info", Description: "Display cluster info"},
@@ -34,6 +36,7 @@ var commands = []prompt.Suggest{
 	{Text: "rollout", Description: "rollout manages a deployment"},
 	{Text: "run", Description: "Run a particular image on the cluster."},
 	{Text: "scale", Description: "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job."},
+	{Text: "set", Description: "Configure application resources"},
 	{Text: "top", Description: "Display Resource (CPU/Memory/Storage) usage"},
 	{Text: "uncordon", Description: "Mark node as schedulable"},
 	{Text: "version", Description: "Print the client and server version information."},
@@ -457,6 +460,26 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 			case "use-context", "set-context":
 				return prompt.FilterContains(getContextSuggestions(), third, true)
 			}
+		}
+	case "set":
+		subCommands := []prompt.Suggest{
+			{Text: "env", Description: "Update environment variables on a pod template"},
+			{Text: "image", Description: "Update image of a pod template"},
+			{Text: "resources", Description: "Update resource requests/limits on objects with pod templates"},
+			{Text: "selector", Description: "Set the selector on a resource"},
+			{Text: "serviceaccount", Description: "Update ServiceAccount of a resource"},
+			{Text: "subject", Description: "Update User, Group or ServiceAccount in a RoleBinding/ClusterRoleBinding"},
+		}
+		if len(args) == 2 {
+			return prompt.FilterHasPrefix(subCommands, args[1], true)
+		}
+	case "auth":
+		subCommands := []prompt.Suggest{
+			{Text: "can-i", Description: "Check whether an action is allowed"},
+			{Text: "reconcile", Description: "Reconciles rules for RBAC Role, RoleBinding, ClusterRole, and ClusterRole binding objects"},
+		}
+		if len(args) == 2 {
+			return prompt.FilterHasPrefix(subCommands, args[1], true)
 		}
 	case "cluster-info":
 		subCommands := []prompt.Suggest{

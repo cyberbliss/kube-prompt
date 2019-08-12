@@ -20,10 +20,21 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 	switch commandArgs[0] {
 	case "annotate":
 		suggests = annotateOptions
+	case "api-resources":
+		suggests = apiResourcesOptions
 	case "apply":
 		suggests = applyOptions
 	case "attach":
 		suggests = attachOptions
+	case "auth":
+		if len(commandArgs) == 2 {
+			switch commandArgs[1] {
+			case "can-i":
+				suggests = authCanIOptions
+			case "reconcile":
+				suggests = authReconcileOptions
+			}
+		}
 	case "autoscale":
 		suggests = autoscaleOptions
 	case "certificate":
@@ -114,6 +125,23 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 		suggests = runOptions
 	case "scale", "resize":
 		suggests = scaleOptions
+	case "set":
+		if len(commandArgs) == 2 {
+			switch commandArgs[1] {
+			case "env":
+				suggests = setEnvOptions
+			case "image":
+				suggests = setImageOptions
+			case "resources":
+				suggests = setResourcesOptions
+			case "selector":
+				suggests = setSelectorOptions
+			case "serviceaccount":
+				suggests = setServiceaccountOptions
+			case "subject":
+				suggests = setSubjectOptions
+			}
+		}
 	case "top":
 		if len(commandArgs) >= 2 {
 			switch commandArgs[1] {

@@ -114,7 +114,7 @@ Hopefully support following commands enough to operate kubernetes.
 * [x] `delete`         Delete resources by filenames, stdin, resources and names, or by resources and label selector.
 * [x] `edit`           Edit a resource on the server
 * [x] `apply`          Apply a configuration to a resource by filename or stdin
-* [x] `namespace`      SUPERSEDED: Set and view the current Kubernetes namespace
+* [x] `namespace`      Set and view the current Kubernetes namespace
 * [x] `logs`           Print the logs for a container in a pod.
 * [x] `rolling-update` Perform a rolling update of the given ReplicationController.
 * [x] `scale`          Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job.
@@ -138,6 +138,15 @@ Hopefully support following commands enough to operate kubernetes.
 * [x] `explain`        Documentation of resources.
 * [x] `convert`        Convert config files between different API versions
 * [x] `top`            Display Resource (CPU/Memory/Storage) usage
+* [x] `certificate`    Modify certificate resources
+* [x] `cp`             Copy files and directories to and from containers
+* [x] `set`            Configure application resources
+* [ ] `taint`          Update the taints on one or more nodes
+* [x] `auth`           Inspect authorization
+* [ ] `wait`           Experimental: Wait for a specific condition on one or many resources
+* [ ] `alpha`          These commands correspond to alpha features that are not enabled in Kubernetes clusters by default
+* [x] `api-resources`  Print the supported API resources on the server
+* [ ] `plugin`         Provides utilities for interacting with plugins
 
 ## Author
 

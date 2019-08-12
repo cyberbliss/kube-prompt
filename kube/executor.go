@@ -24,7 +24,7 @@ func Executor(s string) {
 	debug.Log(s)
 	if s == "" {
 		return
-	} else if s == "quit" || s == "exit" {
+	} else if s == "quit" || s == "q" || s == "exit" {
 		fmt.Println("Bye!")
 		os.Exit(0)
 		return
