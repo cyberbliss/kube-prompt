@@ -6,14 +6,14 @@ import (
 	prompt "github.com/c-bata/go-prompt"
 )
 
-var rolloutHistoryOptions = []prompt.Suggest{
+var taintOptions = []prompt.Suggest{
+	prompt.Suggest{Text: "--all", Description: "Select all nodes in the cluster"},
 	prompt.Suggest{Text: "--allow-missing-template-keys", Description: "If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats."},
-	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files identifying the resource to get from a server."},
-	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files identifying the resource to get from a server."},
 	prompt.Suggest{Text: "-o", Description: "Output format. One of: json|yaml|name|template|go-template|go-template-file|templatefile|jsonpath|jsonpath-file."},
 	prompt.Suggest{Text: "--output", Description: "Output format. One of: json|yaml|name|template|go-template|go-template-file|templatefile|jsonpath|jsonpath-file."},
-	prompt.Suggest{Text: "-R", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
-	prompt.Suggest{Text: "--recursive", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
-	prompt.Suggest{Text: "--revision", Description: "See the details, including podTemplate of the revision specified"},
+	prompt.Suggest{Text: "--overwrite", Description: "If true, allow taints to be overwritten, otherwise reject taint updates that overwrite existing taints."},
+	prompt.Suggest{Text: "-l", Description: "Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)"},
+	prompt.Suggest{Text: "--selector", Description: "Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)"},
 	prompt.Suggest{Text: "--template", Description: "Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview]."},
+	prompt.Suggest{Text: "--validate", Description: "If true, use a schema to validate the input before sending it"},
 }

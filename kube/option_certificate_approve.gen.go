@@ -6,14 +6,14 @@ import (
 	prompt "github.com/c-bata/go-prompt"
 )
 
-var rolloutHistoryOptions = []prompt.Suggest{
+var certificateApproveOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "--allow-missing-template-keys", Description: "If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats."},
-	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files identifying the resource to get from a server."},
-	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files identifying the resource to get from a server."},
+	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files identifying the resource to update"},
+	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files identifying the resource to update"},
+	prompt.Suggest{Text: "--force", Description: "Update the CSR even if it is already approved."},
 	prompt.Suggest{Text: "-o", Description: "Output format. One of: json|yaml|name|template|go-template|go-template-file|templatefile|jsonpath|jsonpath-file."},
 	prompt.Suggest{Text: "--output", Description: "Output format. One of: json|yaml|name|template|go-template|go-template-file|templatefile|jsonpath|jsonpath-file."},
 	prompt.Suggest{Text: "-R", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
 	prompt.Suggest{Text: "--recursive", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
-	prompt.Suggest{Text: "--revision", Description: "See the details, including podTemplate of the revision specified"},
 	prompt.Suggest{Text: "--template", Description: "Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview]."},
 }

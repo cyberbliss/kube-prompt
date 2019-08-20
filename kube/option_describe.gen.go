@@ -10,7 +10,6 @@ var describeOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "--all-namespaces", Description: "If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace."},
 	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files containing the resource to describe"},
 	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files containing the resource to describe"},
-	prompt.Suggest{Text: "--include-extended-apis", Description: "If true, include definitions of new APIs via calls to the API server. [default true]"},
 	prompt.Suggest{Text: "--include-uninitialized", Description: "If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized."},
 	prompt.Suggest{Text: "-R", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
 	prompt.Suggest{Text: "--recursive", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},

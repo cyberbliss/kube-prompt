@@ -12,6 +12,7 @@ var proxyOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "--address", Description: "The IP address on which to serve on."},
 	prompt.Suggest{Text: "--api-prefix", Description: "Prefix to serve the proxied API under."},
 	prompt.Suggest{Text: "--disable-filter", Description: "If true, disable request filtering in the proxy. This is dangerous, and can leave you vulnerable to XSRF attacks, when used with an accessible port."},
+	prompt.Suggest{Text: "--keepalive", Description: "keepalive specifies the keep-alive period for an active network connection. Set to 0 to disable keepalive."},
 	prompt.Suggest{Text: "-p", Description: "The port on which to run the proxy. Set to 0 to pick a random port."},
 	prompt.Suggest{Text: "--port", Description: "The port on which to run the proxy. Set to 0 to pick a random port."},
 	prompt.Suggest{Text: "--reject-methods", Description: "Regular expression for HTTP methods that the proxy should reject (example --reject-methods='POST,PUT,PATCH')."},

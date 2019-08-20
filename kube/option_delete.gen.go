@@ -9,12 +9,12 @@ import (
 var deleteOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "--all", Description: "Delete all resources, including uninitialized ones, in the namespace of the specified resource types."},
 	prompt.Suggest{Text: "--cascade", Description: "If true, cascade the deletion of the resources managed by this resource (e.g. Pods created by a ReplicationController).  Default true."},
-	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files containing the resource to delete."},
-	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files containing the resource to delete."},
-	prompt.Suggest{Text: "--force", Description: "Immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."},
-	prompt.Suggest{Text: "--grace-period", Description: "Period of time in seconds given to the resource to terminate gracefully. Ignored if negative."},
+	prompt.Suggest{Text: "--field-selector", Description: "Selector (field query) to filter on, supports '=', '==', and '!='.(e.g. --field-selector key1=value1,key2=value2). The server only supports a limited number of field queries per type."},
+	prompt.Suggest{Text: "-f", Description: "containing the resource to delete."},
+	prompt.Suggest{Text: "--filename", Description: "containing the resource to delete."},
+	prompt.Suggest{Text: "--force", Description: "Only used when grace-period=0. If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."},
+	prompt.Suggest{Text: "--grace-period", Description: "Period of time in seconds given to the resource to terminate gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can only be set to 0 when --force is true (force deletion)."},
 	prompt.Suggest{Text: "--ignore-not-found", Description: "Treat \"resource not found\" as a successful delete. Defaults to \"true\" when --all is specified."},
-	prompt.Suggest{Text: "--include-extended-apis", Description: "If true, include definitions of new APIs via calls to the API server. [default true]"},
 	prompt.Suggest{Text: "--include-uninitialized", Description: "If true, the kubectl command applies to uninitialized objects. If explicitly set to false, this flag overrides other flags that make the kubectl commands apply to uninitialized objects, e.g., \"--all\". Objects with empty metadata.initializers are regarded as initialized."},
 	prompt.Suggest{Text: "--now", Description: "If true, resources are signaled for immediate shutdown (same as --grace-period=1)."},
 	prompt.Suggest{Text: "-o", Description: "Output mode. Use \"-o name\" for shorter output (resource/name)."},
@@ -24,4 +24,5 @@ var deleteOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "-l", Description: "Selector (label query) to filter on, not including uninitialized ones."},
 	prompt.Suggest{Text: "--selector", Description: "Selector (label query) to filter on, not including uninitialized ones."},
 	prompt.Suggest{Text: "--timeout", Description: "The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object"},
+	prompt.Suggest{Text: "--wait", Description: "If true, wait for resources to be gone before returning. This waits for finalizers."},
 }

@@ -60,6 +60,7 @@ kubectlsubcmds=(
 "set selector"
 "set serviceaccount"
 "set subject"
+"taint"
 "top node"
 "top pod"
 "uncordon"

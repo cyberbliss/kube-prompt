@@ -37,6 +37,7 @@ var commands = []prompt.Suggest{
 	{Text: "run", Description: "Run a particular image on the cluster."},
 	{Text: "scale", Description: "Set a new size for a Deployment, ReplicaSet, Replication Controller, or Job."},
 	{Text: "set", Description: "Configure application resources"},
+	{Text: "taint", Description: "Update the taints on one or more nodes"},
 	{Text: "top", Description: "Display Resource (CPU/Memory/Storage) usage"},
 	{Text: "uncordon", Description: "Mark node as schedulable"},
 	{Text: "version", Description: "Print the client and server version information."},
@@ -498,6 +499,10 @@ func (c *Completer) argumentsCompleter(namespace string, args []string) []prompt
 		}
 	case "explain":
 		return prompt.FilterHasPrefix(resourceTypes, args[1], true)
+	case "taint":
+		if len(args) == 2 {
+			return prompt.FilterContains(getNodeSuggestions(c.client), args[1], true)
+		}
 	case "top":
 		second := args[1]
 		if len(args) == 2 {

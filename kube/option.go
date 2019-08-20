@@ -142,6 +142,8 @@ func optionCompleter(args []string, long bool) []prompt.Suggest {
 				suggests = setSubjectOptions
 			}
 		}
+	case "taint":
+		suggests = taintOptions
 	case "top":
 		if len(commandArgs) >= 2 {
 			switch commandArgs[1] {

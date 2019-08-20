@@ -6,11 +6,7 @@ import (
 	prompt "github.com/c-bata/go-prompt"
 )
 
-var execOptions = []prompt.Suggest{
+var cpOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "-c", Description: "Container name. If omitted, the first container in the pod will be chosen"},
 	prompt.Suggest{Text: "--container", Description: "Container name. If omitted, the first container in the pod will be chosen"},
-	prompt.Suggest{Text: "-i", Description: "Pass stdin to the container"},
-	prompt.Suggest{Text: "--stdin", Description: "Pass stdin to the container"},
-	prompt.Suggest{Text: "-t", Description: "Stdin is a TTY"},
-	prompt.Suggest{Text: "--tty", Description: "Stdin is a TTY"},
 }

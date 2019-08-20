@@ -6,16 +6,16 @@ import (
 	prompt "github.com/c-bata/go-prompt"
 )
 
-var convertOptions = []prompt.Suggest{
+var authReconcileOptions = []prompt.Suggest{
 	prompt.Suggest{Text: "--allow-missing-template-keys", Description: "If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats."},
-	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files to need to get converted."},
-	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files to need to get converted."},
-	prompt.Suggest{Text: "--local", Description: "If true, convert will NOT try to contact api-server but run locally."},
+	prompt.Suggest{Text: "--dry-run", Description: "If true, display results but do not submit changes"},
+	prompt.Suggest{Text: "-f", Description: "Filename, directory, or URL to files identifying the resource to reconcile."},
+	prompt.Suggest{Text: "--filename", Description: "Filename, directory, or URL to files identifying the resource to reconcile."},
 	prompt.Suggest{Text: "-o", Description: "Output format. One of: json|yaml|name|go-template|go-template-file|templatefile|template|jsonpath|jsonpath-file."},
 	prompt.Suggest{Text: "--output", Description: "Output format. One of: json|yaml|name|go-template|go-template-file|templatefile|template|jsonpath|jsonpath-file."},
-	prompt.Suggest{Text: "--output-version", Description: "Output the formatted object with the given group version (for ex: 'extensions/v1beta1')."},
 	prompt.Suggest{Text: "-R", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
 	prompt.Suggest{Text: "--recursive", Description: "Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory."},
+	prompt.Suggest{Text: "--remove-extra-permissions", Description: "If true, removes extra permissions added to roles"},
+	prompt.Suggest{Text: "--remove-extra-subjects", Description: "If true, removes extra subjects added to rolebindings"},
 	prompt.Suggest{Text: "--template", Description: "Template string or path to template file to use when -o=go-template, -o=go-template-file. The template format is golang templates [http://golang.org/pkg/text/template/#pkg-overview]."},
-	prompt.Suggest{Text: "--validate", Description: "If true, use a schema to validate the input before sending it"},
 }

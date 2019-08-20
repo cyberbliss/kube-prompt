@@ -7,12 +7,11 @@ import (
 )
 
 var logsOptions = []prompt.Suggest{
+	prompt.Suggest{Text: "--all-containers", Description: "Get all containers's logs in the pod(s)."},
 	prompt.Suggest{Text: "-c", Description: "Print the logs of this container"},
 	prompt.Suggest{Text: "--container", Description: "Print the logs of this container"},
 	prompt.Suggest{Text: "-f", Description: "Specify if the logs should be streamed."},
 	prompt.Suggest{Text: "--follow", Description: "Specify if the logs should be streamed."},
-	prompt.Suggest{Text: "--include-extended-apis", Description: "If true, include definitions of new APIs via calls to the API server. [default true]"},
-	prompt.Suggest{Text: "--interactive", Description: "If true, prompt the user for input when required."},
 	prompt.Suggest{Text: "--limit-bytes", Description: "Maximum bytes of logs to return. Defaults to no limit."},
 	prompt.Suggest{Text: "--pod-running-timeout", Description: "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"},
 	prompt.Suggest{Text: "-p", Description: "If true, print the logs for the previous instance of the container in a pod if it exists."},

@@ -141,7 +141,7 @@ Hopefully support following commands enough to operate kubernetes.
 * [x] `certificate`    Modify certificate resources
 * [x] `cp`             Copy files and directories to and from containers
 * [x] `set`            Configure application resources
-* [ ] `taint`          Update the taints on one or more nodes
+* [x] `taint`          Update the taints on one or more nodes
 * [x] `auth`           Inspect authorization
 * [ ] `wait`           Experimental: Wait for a specific condition on one or many resources
 * [ ] `alpha`          These commands correspond to alpha features that are not enabled in Kubernetes clusters by default
