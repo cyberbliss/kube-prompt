@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	prompt "github.com/c-bata/go-prompt"
+	"github.com/c-bata/go-prompt"
 	"github.com/c-bata/go-prompt/completer"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -136,16 +136,39 @@ func (c *Completer) completeOptionArguments(d prompt.Document) ([]prompt.Suggest
 	if !found {
 		return []prompt.Suggest{}, false
 	}
+
+	// namespace
+	if option == "-n" || option == "--namespace" {
+		return prompt.FilterHasPrefix(
+			getNameSpaceSuggestions(c.namespaceList),
+			d.GetWordBeforeCursor(),
+			true,
+		), true
+	}
+
+	// filename
 	switch cmd {
 	case "get", "describe", "create", "delete", "replace", "patch",
 		"edit", "apply", "expose", "rolling-update", "rollout",
 		"label", "annotate", "scale", "convert", "autoscale", "top":
-		switch option {
-		case "-f", "--filename":
+		if option == "-f" || option == "--filename" {
 			return yamlFileCompleter.Complete(d), true
-		case "-n", "--namespace":
+		}
+	}
+
+	// container
+	switch cmd {
+	case "exec", "logs", "run", "attach", "port-forward", "cp":
+		if option == "-c" || option == "--container" {
+			cmdArgs := getCommandArgs(d)
+			var suggestions []prompt.Suggest
+			if cmdArgs == nil || len(cmdArgs) < 2 {
+				suggestions = getContainerNamesFromCachedPods(c.client, c.namespace)
+			} else {
+				suggestions = getContainerName(c.client, c.namespace, cmdArgs[1])
+			}
 			return prompt.FilterHasPrefix(
-				getNameSpaceSuggestions(c.namespaceList),
+				suggestions,
 				d.GetWordBeforeCursor(),
 				true,
 			), true
@@ -154,23 +177,27 @@ func (c *Completer) completeOptionArguments(d prompt.Document) ([]prompt.Suggest
 	return []prompt.Suggest{}, false
 }
 
+func getCommandArgs(d prompt.Document) []string {
+	args := strings.Split(d.TextBeforeCursor(), " ")
+
+	// If PIPE is in text before the cursor, returns empty.
+	for i := range args {
+		if args[i] == "|" {
+			return nil
+		}
+	}
+
+	commandArgs, _ := excludeOptions(args)
+	return commandArgs
+}
+
 func excludeOptions(args []string) ([]string, bool) {
 	l := len(args)
-	filtered := make([]string, 0, l)
-
-	shouldSkipNext := []string{
-		"-f",
-		"--filename",
-		"-n",
-		"--namespace",
-		"-s",
-		"--server",
-		"--kubeconfig",
-		"--cluster",
-		"--user",
-		"--output",
-		"-o",
+	if l == 0 {
+		return nil, false
 	}
+	cmd := args[0]
+	filtered := make([]string, 0, l)
 
 	var skipNextArg bool
 	for i := 0; i < len(args); i++ {
@@ -179,7 +206,21 @@ func excludeOptions(args []string) ([]string, bool) {
 			continue
 		}
 
-		for _, s := range shouldSkipNext {
+		if cmd == "logs" && args[i] == "-f" {
+			continue
+		}
+
+		for _, s := range []string{
+			"-f", "--filename",
+			"-n", "--namespace",
+			"-s", "--server",
+			"--kubeconfig",
+			"--cluster",
+			"--user",
+			"-o", "--output",
+			"-c",
+			"--container",
+		} {
 			if strings.HasPrefix(args[i], s) {
 				if strings.Contains(args[i], "=") {
 					// we can specify option value like '-o=json'
